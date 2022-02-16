@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package
+        packagerversion="1.9.4" version="2.0"
+        xmlns="http://pear.php.net/dtd/package-2.0"
+        xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+    <name>SDL_mixer</name>
+    <channel>pecl.php.net</channel>
+    <summary>Binding of SDL_ttf for PHP</summary>
+    <description>
+        SDL_ttf extension for PHP add support for TrueType (.ttf) font files with Simple Directmedia Layer (SDL).
+    </description>
+    <lead>
+        <name>Manuel Baldassarri</name>
+        <user>kea</user>
+        <email>manuel@baldassarri.me</email>
+        <active>yes</active>
+    </lead>
+
+    <!-- Current Release -->
+    <date>2022-02-01</date>
+    <time>09:00:00</time>
+    <version>
+        <release>0.2.0</release>
+        <api>1.0.0</api>
+    </version>
+    <stability>
+        <release>stable</release>
+        <api>stable</api>
+    </stability>
+    <license uri="https://github.com/kea/php-sdl-ttf/LICENSE">ZLIB</license>
+    <notes>
+        - Initial release
+    </notes>
+    <!-- End Current Release -->
+
+    <contents>
+        <dir name="/">
+            <file name="config.m4" role="src" />
+            <file name="README.md" role="doc" />
+            <file name="LICENSE" role="doc" />
+            <file name="CREDITS" role="doc" />
+            <file name="sdl_bool.h" role="src" />
+            <file name="php_sdl_ttf.h" role="src" />
+            <file name="sdl_surface.h" role="src" />
+            <file name="sdl_rwops.h" role="src" />
+            <file name="sdl_color.h" role="src" />
+            <file name="sdl_ttf.c" role="src" />
+            <file name="sdl_ttf.stub.php" role="src" />
+            <file name="sdl_ttf_arginfo.h" role="src" />
+            <file name="sdl_version.h" role="src" />
+            <file name="ttf_font.h" role="src" />
+            <dir name="tests">
+                <file name="001.phpt" role="test" />
+                <file name="002.phpt" role="test" />
+            </dir>
+        </dir>
+    </contents>
+
+    <dependencies>
+        <required>
+            <php>
+                <min>8.0.0</min>
+                <max>8.1.99</max>
+            </php>
+            <pearinstaller>
+                <min>1.9.1</min>
+            </pearinstaller>
+        </required>
+    </dependencies>
+    <providesextension>SDL_mixer</providesextension>
+    <extsrcrelease/>
+    <changelog>
+        <release>
+            <date>2022-02-16</date>
+            <time>09:00:00</time>
+            <version>
+                <release>0.2.0</release>
+                <api>1.0.0</api>
+            </version>
+            <stability>
+                <release>devel</release>
+                <api>devel</api>
+            </stability>
+            <license uri="https://raw.githubusercontent.com/kea/php-sdl-ttf/master/LICENSE">ZLib</license>
+            <notes>
+                - First release
+            </notes>
+        </release>
+    </changelog>
+</package>
