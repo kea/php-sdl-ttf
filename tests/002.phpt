@@ -1,13 +1,13 @@
 --TEST--
-test1() Basic test
+TTF_WasInit
 --EXTENSIONS--
+sdl
 sdl_ttf
 --FILE--
 <?php
-$ret = test1();
+$ret = TTF_WasInit();
 
 var_dump($ret);
 ?>
 --EXPECT--
-The extension sdl_ttf is loaded and working!
-NULL
+int(1)

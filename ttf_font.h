@@ -9,7 +9,7 @@ typedef struct _php_ttf_font_object {
 
 static php_ttf_font_object *php_ttf_font_object_from_zend_object(zend_object *zobj)
 {
-	return ((php_ttf_font_object*)(zobj + 1)) - 1;
+	return (php_ttf_font_object *)( ((char *)zobj) - XtOffsetOf(php_ttf_font_object, std) );
 }
 
 static zend_object *php_ttf_font_object_to_zend_object(php_ttf_font_object *obj)

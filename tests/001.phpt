@@ -1,6 +1,7 @@
 --TEST--
 Check if sdl_ttf is loaded
 --EXTENSIONS--
+sdl
 sdl_ttf
 --FILE--
 <?php

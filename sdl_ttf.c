@@ -61,12 +61,15 @@ PHP_FUNCTION(TTF_OpenFont)
         Z_PARAM_LONG(ptsize)
     ZEND_PARSE_PARAMETERS_END();
 
-
     TTF_Font * result = TTF_OpenFont((const char*)file, ptsize);
-
+	if (result == NULL) {
+		RETURN_NULL();
+	}
 
     zend_object *cresult = php_ttf_font_object_create(ttf_font_ce);
-        RETURN_OBJ(cresult);
+	(php_ttf_font_object_from_zend_object(cresult))->ttf_font = result;
+
+	RETURN_OBJ(cresult);
 }
 PHP_FUNCTION(TTF_OpenFontIndex)
 {
@@ -84,6 +87,8 @@ PHP_FUNCTION(TTF_OpenFontIndex)
     TTF_Font * result = TTF_OpenFontIndex((const char*)file, ptsize, index);
 
     zend_object *cresult = php_ttf_font_object_create(ttf_font_ce);
+    (php_ttf_font_object_from_zend_object(cresult))->ttf_font = result;
+
     RETURN_OBJ(cresult);
 }
 PHP_FUNCTION(TTF_OpenFontRW)
@@ -103,6 +108,8 @@ PHP_FUNCTION(TTF_OpenFontRW)
     TTF_Font * result = TTF_OpenFontRW(src, freesrc, ptsize);
 
     zend_object *cresult = php_ttf_font_object_create(ttf_font_ce);
+    (php_ttf_font_object_from_zend_object(cresult))->ttf_font = result;
+
     RETURN_OBJ(cresult);
 }
 PHP_FUNCTION(TTF_OpenFontIndexRW)
@@ -124,6 +131,8 @@ PHP_FUNCTION(TTF_OpenFontIndexRW)
     TTF_Font * result = TTF_OpenFontIndexRW(src, freesrc, ptsize, index);
 
     zend_object *cresult = php_ttf_font_object_create(ttf_font_ce);
+    (php_ttf_font_object_from_zend_object(cresult))->ttf_font = result;
+
     RETURN_OBJ(cresult);
 }
 PHP_FUNCTION(TTF_GetFontStyle)
@@ -796,7 +805,10 @@ PHP_FUNCTION(TTF_CloseFont)
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
     ZEND_PARSE_PARAMETERS_END();
     font = php_ttf_font_from_zval_p(FONT);
-    TTF_CloseFont(font);
+
+	TTF_CloseFont(font);
+	php_ttf_font_object_from_zend_object(Z_OBJ_P(FONT))->ttf_font = NULL;
+	// @todo destroy object FONT?
 }
 PHP_FUNCTION(TTF_Quit)
 {
