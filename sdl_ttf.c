@@ -10,18 +10,17 @@
 #include "php_sdl_ttf.h"
 #include "sdl_ttf_arginfo.h"
 #include "ttf_font.h"
-#include "sdl_color.h"
 #include "sdl_version.h"
 #include "sdl_bool.h"
 #include "sdl_rwops.h"
-#include "sdl_surface.h"
 
-/* For compatibility with older PHP versions */
-#ifndef ZEND_PARSE_PARAMETERS_NONE
-#define ZEND_PARSE_PARAMETERS_NONE() \
-	ZEND_PARSE_PARAMETERS_START(0, 0) \
-	ZEND_PARSE_PARAMETERS_END()
-#endif
+extern zend_class_entry *get_php_sdl_color_ce(void);
+extern zend_bool sdl_color_to_zval(SDL_Color *color, zval *value);
+extern zend_bool zval_to_sdl_color(zval *value, SDL_Color *color);
+
+extern zend_class_entry *get_php_sdl_surface_ce(void);
+extern zend_bool sdl_surface_to_zval(SDL_Surface *surface, zval *zval);
+extern SDL_Surface *zval_to_sdl_surface(zval *z_val);
 
 PHP_FUNCTION(TTF_Linked_Version)
 {
@@ -446,20 +445,19 @@ PHP_FUNCTION(TTF_RenderText_Solid)
     char *text = NULL;
     size_t text_len = 0;
     zval *FG;
-    SDL_Color *fg;
+    SDL_Color fg;
 
     ZEND_PARSE_PARAMETERS_START(3, 3);
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
         Z_PARAM_STRING(text, text_len)
-        Z_PARAM_OBJECT_OF_CLASS(FG, sdl_color_ce)
+        Z_PARAM_OBJECT_OF_CLASS(FG, get_php_sdl_color_ce())
     ZEND_PARSE_PARAMETERS_END();
     font = php_ttf_font_from_zval_p(FONT);
 
-    fg = php_sdl_color_from_zval_p(FG);
-    SDL_Surface * result = TTF_RenderText_Solid(font, (const char*)text, *fg);
+    zval_to_sdl_color(FG, &fg);
+    SDL_Surface * result = TTF_RenderText_Solid(font, (const char*)text, fg);
 
-    zend_object *cresult = php_sdl_surface_object_create(sdl_surface_ce);
-    RETURN_OBJ(cresult);
+sdl_surface_to_zval(result, return_value);
 }
 PHP_FUNCTION(TTF_RenderUTF8_Solid)
 {
@@ -468,20 +466,22 @@ PHP_FUNCTION(TTF_RenderUTF8_Solid)
     char *text = NULL;
     size_t text_len = 0;
     zval *FG;
-    SDL_Color *fg;
+    SDL_Color fg;
 
     ZEND_PARSE_PARAMETERS_START(3, 3);
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
         Z_PARAM_STRING(text, text_len)
-        Z_PARAM_OBJECT_OF_CLASS(FG, sdl_color_ce)
+        Z_PARAM_OBJECT_OF_CLASS(FG, get_php_sdl_color_ce())
     ZEND_PARSE_PARAMETERS_END();
     font = php_ttf_font_from_zval_p(FONT);
 
-    fg = php_sdl_color_from_zval_p(FG);
-    SDL_Surface * result = TTF_RenderUTF8_Solid(font, (const char*)text, *fg);
+	zval_to_sdl_color(FG, &fg);
+    SDL_Surface * result = TTF_RenderUTF8_Solid(font, (const char*)text, fg);
 
-    zend_object *cresult = php_sdl_surface_object_create(sdl_surface_ce);
-    RETURN_OBJ(cresult);
+	zval *cresult;
+	sdl_surface_to_zval(result, cresult);
+
+	RETURN_OBJ(Z_OBJ_P(cresult));
 }
 PHP_FUNCTION(TTF_RenderUNICODE_Solid)
 {
@@ -490,22 +490,24 @@ PHP_FUNCTION(TTF_RenderUNICODE_Solid)
     zval *z_text = NULL;
     Uint16 text;
     zval *FG;
-    SDL_Color *fg;
+    SDL_Color fg;
 
     ZEND_PARSE_PARAMETERS_START(3, 3);
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
         Z_PARAM_ZVAL(z_text)
-        Z_PARAM_OBJECT_OF_CLASS(FG, sdl_color_ce)
+        Z_PARAM_OBJECT_OF_CLASS(FG, get_php_sdl_color_ce())
     ZEND_PARSE_PARAMETERS_END();
     font = php_ttf_font_from_zval_p(FONT);
 
-    fg = php_sdl_color_from_zval_p(FG);
-    SDL_Surface * result = TTF_RenderUNICODE_Solid(font, &text, *fg);
+    zval_to_sdl_color(FG, &fg);
+    SDL_Surface * result = TTF_RenderUNICODE_Solid(font, &text, fg);
 
     ZEND_TRY_ASSIGN_REF_LONG(z_text, text);
 
-    zend_object *cresult = php_sdl_surface_object_create(sdl_surface_ce);
-    RETURN_OBJ(cresult);
+	zval *cresult;
+	sdl_surface_to_zval(result, cresult);
+
+	RETURN_OBJ(Z_OBJ_P(cresult));
 }
 PHP_FUNCTION(TTF_RenderGlyph_Solid)
 {
@@ -513,20 +515,22 @@ PHP_FUNCTION(TTF_RenderGlyph_Solid)
     TTF_Font *font;
     zend_long ch;
     zval *FG;
-    SDL_Color *fg;
+    SDL_Color fg;
 
     ZEND_PARSE_PARAMETERS_START(3, 3);
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
         Z_PARAM_LONG(ch)
-        Z_PARAM_OBJECT_OF_CLASS(FG, sdl_color_ce)
+        Z_PARAM_OBJECT_OF_CLASS(FG, get_php_sdl_color_ce())
     ZEND_PARSE_PARAMETERS_END();
     font = php_ttf_font_from_zval_p(FONT);
 
-    fg = php_sdl_color_from_zval_p(FG);
-    SDL_Surface * result = TTF_RenderGlyph_Solid(font, ch, *fg);
+	zval_to_sdl_color(FG, &fg);
+    SDL_Surface * result = TTF_RenderGlyph_Solid(font, ch, fg);
 
-    zend_object *cresult = php_sdl_surface_object_create(sdl_surface_ce);
-    RETURN_OBJ(cresult);
+	zval *cresult;
+	sdl_surface_to_zval(result, cresult);
+
+	RETURN_OBJ(Z_OBJ_P(cresult));
 }
 PHP_FUNCTION(TTF_RenderText_Shaded)
 {
@@ -535,24 +539,26 @@ PHP_FUNCTION(TTF_RenderText_Shaded)
     char *text = NULL;
     size_t text_len = 0;
     zval *FG;
-    SDL_Color *fg;
+    SDL_Color fg;
     zval *BG;
-    SDL_Color *bg;
+    SDL_Color bg;
 
     ZEND_PARSE_PARAMETERS_START(4, 4);
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
         Z_PARAM_STRING(text, text_len)
-        Z_PARAM_OBJECT_OF_CLASS(FG, sdl_color_ce)
-        Z_PARAM_OBJECT_OF_CLASS(BG, sdl_color_ce)
+        Z_PARAM_OBJECT_OF_CLASS(FG, get_php_sdl_color_ce())
+        Z_PARAM_OBJECT_OF_CLASS(BG, get_php_sdl_color_ce())
     ZEND_PARSE_PARAMETERS_END();
     font = php_ttf_font_from_zval_p(FONT);
 
-    fg = php_sdl_color_from_zval_p(FG);
-    bg = php_sdl_color_from_zval_p(BG);
-    SDL_Surface * result = TTF_RenderText_Shaded(font, (const char*)text, *fg, *bg);
+    zval_to_sdl_color(FG, &fg);
+    zval_to_sdl_color(BG, &bg);
+    SDL_Surface * result = TTF_RenderText_Shaded(font, (const char*)text, fg, bg);
 
-    zend_object *cresult = php_sdl_surface_object_create(sdl_surface_ce);
-    RETURN_OBJ(cresult);
+	zval *cresult;
+	sdl_surface_to_zval(result, cresult);
+
+	RETURN_OBJ(Z_OBJ_P(cresult));
 }
 PHP_FUNCTION(TTF_RenderUTF8_Shaded)
 {
@@ -561,24 +567,26 @@ PHP_FUNCTION(TTF_RenderUTF8_Shaded)
     char *text = NULL;
     size_t text_len = 0;
     zval *FG;
-    SDL_Color *fg;
+    SDL_Color fg;
     zval *BG;
-    SDL_Color *bg;
+    SDL_Color bg;
 
     ZEND_PARSE_PARAMETERS_START(4, 4);
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
         Z_PARAM_STRING(text, text_len)
-        Z_PARAM_OBJECT_OF_CLASS(FG, sdl_color_ce)
-        Z_PARAM_OBJECT_OF_CLASS(BG, sdl_color_ce)
+        Z_PARAM_OBJECT_OF_CLASS(FG, get_php_sdl_color_ce())
+        Z_PARAM_OBJECT_OF_CLASS(BG, get_php_sdl_color_ce())
     ZEND_PARSE_PARAMETERS_END();
     font = php_ttf_font_from_zval_p(FONT);
 
-    fg = php_sdl_color_from_zval_p(FG);
-    bg = php_sdl_color_from_zval_p(BG);
-    SDL_Surface * result = TTF_RenderUTF8_Shaded(font, (const char*)text, *fg, *bg);
+    zval_to_sdl_color(FG, &fg);
+    zval_to_sdl_color(BG, &bg);
+    SDL_Surface * result = TTF_RenderUTF8_Shaded(font, (const char*)text, fg, bg);
 
-    zend_object *cresult = php_sdl_surface_object_create(sdl_surface_ce);
-    RETURN_OBJ(cresult);
+	zval *cresult;
+	sdl_surface_to_zval(result, cresult);
+
+	RETURN_OBJ(Z_OBJ_P(cresult));
 }
 PHP_FUNCTION(TTF_RenderUNICODE_Shaded)
 {
@@ -587,26 +595,27 @@ PHP_FUNCTION(TTF_RenderUNICODE_Shaded)
     zval *z_text = NULL;
     Uint16 text;
     zval *FG;
-    SDL_Color *fg;
+    SDL_Color fg;
     zval *BG;
-    SDL_Color *bg;
+    SDL_Color bg;
 
     ZEND_PARSE_PARAMETERS_START(4, 4);
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
         Z_PARAM_ZVAL(z_text)
-        Z_PARAM_OBJECT_OF_CLASS(FG, sdl_color_ce)
-        Z_PARAM_OBJECT_OF_CLASS(BG, sdl_color_ce)
+        Z_PARAM_OBJECT_OF_CLASS(FG, get_php_sdl_color_ce())
+        Z_PARAM_OBJECT_OF_CLASS(BG, get_php_sdl_color_ce())
     ZEND_PARSE_PARAMETERS_END();
     font = php_ttf_font_from_zval_p(FONT);
 
-    fg = php_sdl_color_from_zval_p(FG);
-    bg = php_sdl_color_from_zval_p(BG);
-    SDL_Surface * result = TTF_RenderUNICODE_Shaded(font, &text, *fg, *bg);
+    zval_to_sdl_color(FG, &fg);
+    zval_to_sdl_color(BG, &bg);
+    SDL_Surface * result = TTF_RenderUNICODE_Shaded(font, &text, fg, bg);
 
     ZEND_TRY_ASSIGN_REF_LONG(z_text, text);
 
-    zend_object *cresult = php_sdl_surface_object_create(sdl_surface_ce);
-    RETURN_OBJ(cresult);
+	zval *cresult;
+	sdl_surface_to_zval(result, cresult);
+    RETURN_OBJ(Z_OBJ_P(cresult));
 }
 PHP_FUNCTION(TTF_RenderGlyph_Shaded)
 {
@@ -614,24 +623,23 @@ PHP_FUNCTION(TTF_RenderGlyph_Shaded)
     TTF_Font *font;
     zend_long ch;
     zval *FG;
-    SDL_Color *fg;
+    SDL_Color fg;
     zval *BG;
-    SDL_Color *bg;
+    SDL_Color bg;
 
     ZEND_PARSE_PARAMETERS_START(4, 4);
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
         Z_PARAM_LONG(ch)
-        Z_PARAM_OBJECT_OF_CLASS(FG, sdl_color_ce)
-        Z_PARAM_OBJECT_OF_CLASS(BG, sdl_color_ce)
+        Z_PARAM_OBJECT_OF_CLASS(FG, get_php_sdl_color_ce())
+        Z_PARAM_OBJECT_OF_CLASS(BG, get_php_sdl_color_ce())
     ZEND_PARSE_PARAMETERS_END();
     font = php_ttf_font_from_zval_p(FONT);
 
-    fg = php_sdl_color_from_zval_p(FG);
-    bg = php_sdl_color_from_zval_p(BG);
-    SDL_Surface * result = TTF_RenderGlyph_Shaded(font, ch, *fg, *bg);
+    zval_to_sdl_color(FG, &fg);
+    zval_to_sdl_color(BG, &bg);
+    SDL_Surface * result = TTF_RenderGlyph_Shaded(font, ch, fg, bg);
 
-    zend_object *cresult = php_sdl_surface_object_create(sdl_surface_ce);
-    RETURN_OBJ(cresult);
+    sdl_surface_to_zval(result, return_value);
 }
 PHP_FUNCTION(TTF_RenderText_Blended)
 {
@@ -640,20 +648,21 @@ PHP_FUNCTION(TTF_RenderText_Blended)
     char *text = NULL;
     size_t text_len = 0;
     zval *FG;
-    SDL_Color *fg;
+    SDL_Color fg;
 
     ZEND_PARSE_PARAMETERS_START(3, 3);
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
         Z_PARAM_STRING(text, text_len)
-        Z_PARAM_OBJECT_OF_CLASS(FG, sdl_color_ce)
+        Z_PARAM_OBJECT_OF_CLASS(FG, get_php_sdl_color_ce())
     ZEND_PARSE_PARAMETERS_END();
+
     font = php_ttf_font_from_zval_p(FONT);
+    zval_to_sdl_color(FG, &fg);
+char* str = (char*) estrndup(text, text_len);
+SDL_Surface * result = TTF_RenderText_Blended(font, (const char*)str, fg);
+efree(str);
 
-    fg = php_sdl_color_from_zval_p(FG);
-    SDL_Surface * result = TTF_RenderText_Blended(font, (const char*)text, *fg);
-
-    zend_object *cresult = php_sdl_surface_object_create(sdl_surface_ce);
-    RETURN_OBJ(cresult);
+	sdl_surface_to_zval(result, return_value);
 }
 PHP_FUNCTION(TTF_RenderUTF8_Blended)
 {
@@ -662,20 +671,19 @@ PHP_FUNCTION(TTF_RenderUTF8_Blended)
     char *text = NULL;
     size_t text_len = 0;
     zval *FG;
-    SDL_Color *fg;
+    SDL_Color fg;
 
     ZEND_PARSE_PARAMETERS_START(3, 3);
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
         Z_PARAM_STRING(text, text_len)
-        Z_PARAM_OBJECT_OF_CLASS(FG, sdl_color_ce)
+        Z_PARAM_OBJECT_OF_CLASS(FG, get_php_sdl_color_ce())
     ZEND_PARSE_PARAMETERS_END();
     font = php_ttf_font_from_zval_p(FONT);
 
-    fg = php_sdl_color_from_zval_p(FG);
-    SDL_Surface * result = TTF_RenderUTF8_Blended(font, (const char*)text, *fg);
+    zval_to_sdl_color(FG, &fg);
+    SDL_Surface * result = TTF_RenderUTF8_Blended(font, (const char*)text, fg);
 
-    zend_object *cresult = php_sdl_surface_object_create(sdl_surface_ce);
-    RETURN_OBJ(cresult);
+    sdl_surface_to_zval(result, return_value);
 }
 PHP_FUNCTION(TTF_RenderUNICODE_Blended)
 {
@@ -684,22 +692,21 @@ PHP_FUNCTION(TTF_RenderUNICODE_Blended)
     zval *z_text = NULL;
     Uint16 text;
     zval *FG;
-    SDL_Color *fg;
+    SDL_Color fg;
 
     ZEND_PARSE_PARAMETERS_START(3, 3);
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
         Z_PARAM_ZVAL(z_text)
-        Z_PARAM_OBJECT_OF_CLASS(FG, sdl_color_ce)
+        Z_PARAM_OBJECT_OF_CLASS(FG, get_php_sdl_color_ce())
     ZEND_PARSE_PARAMETERS_END();
     font = php_ttf_font_from_zval_p(FONT);
 
-    fg = php_sdl_color_from_zval_p(FG);
-    SDL_Surface * result = TTF_RenderUNICODE_Blended(font, &text, *fg);
+    zval_to_sdl_color(FG, &fg);
+    SDL_Surface * result = TTF_RenderUNICODE_Blended(font, &text, fg);
 
     ZEND_TRY_ASSIGN_REF_LONG(z_text, text);
 
-    zend_object *cresult = php_sdl_surface_object_create(sdl_surface_ce);
-    RETURN_OBJ(cresult);
+    sdl_surface_to_zval(result, return_value);
 }
 PHP_FUNCTION(TTF_RenderText_Blended_Wrapped)
 {
@@ -708,23 +715,22 @@ PHP_FUNCTION(TTF_RenderText_Blended_Wrapped)
     char *text = NULL;
     size_t text_len = 0;
     zval *FG;
-    SDL_Color *fg;
+    SDL_Color fg;
     zend_long wrapLength;
 
     ZEND_PARSE_PARAMETERS_START(4, 4);
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
         Z_PARAM_STRING(text, text_len)
-        Z_PARAM_OBJECT_OF_CLASS(FG, sdl_color_ce)
+        Z_PARAM_OBJECT_OF_CLASS(FG, get_php_sdl_color_ce())
         Z_PARAM_LONG(wrapLength)
     ZEND_PARSE_PARAMETERS_END();
     font = php_ttf_font_from_zval_p(FONT);
 
-    fg = php_sdl_color_from_zval_p(FG);
+    zval_to_sdl_color(FG, &fg);
 
-    SDL_Surface * result = TTF_RenderText_Blended_Wrapped(font, (const char*)text, *fg, wrapLength);
+    SDL_Surface * result = TTF_RenderText_Blended_Wrapped(font, (const char*)text, fg, wrapLength);
 
-    zend_object *cresult = php_sdl_surface_object_create(sdl_surface_ce);
-    RETURN_OBJ(cresult);
+    sdl_surface_to_zval(result, return_value);
 }
 PHP_FUNCTION(TTF_RenderUTF8_Blended_Wrapped)
 {
@@ -733,23 +739,22 @@ PHP_FUNCTION(TTF_RenderUTF8_Blended_Wrapped)
     char *text = NULL;
     size_t text_len = 0;
     zval *FG;
-    SDL_Color *fg;
+    SDL_Color fg;
     zend_long wrapLength;
 
     ZEND_PARSE_PARAMETERS_START(4, 4);
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
         Z_PARAM_STRING(text, text_len)
-        Z_PARAM_OBJECT_OF_CLASS(FG, sdl_color_ce)
+        Z_PARAM_OBJECT_OF_CLASS(FG, get_php_sdl_color_ce())
         Z_PARAM_LONG(wrapLength)
     ZEND_PARSE_PARAMETERS_END();
     font = php_ttf_font_from_zval_p(FONT);
 
-    fg = php_sdl_color_from_zval_p(FG);
+    zval_to_sdl_color(FG, &fg);
 
-    SDL_Surface * result = TTF_RenderUTF8_Blended_Wrapped(font, (const char*)text, *fg, wrapLength);
+    SDL_Surface * result = TTF_RenderUTF8_Blended_Wrapped(font, (const char*)text, fg, wrapLength);
 
-    zend_object *cresult = php_sdl_surface_object_create(sdl_surface_ce);
-    RETURN_OBJ(cresult);
+    sdl_surface_to_zval(result, return_value);
 }
 PHP_FUNCTION(TTF_RenderUNICODE_Blended_Wrapped)
 {
@@ -758,23 +763,22 @@ PHP_FUNCTION(TTF_RenderUNICODE_Blended_Wrapped)
     zval *z_text = NULL;
     Uint16 text;
     zval *FG;
-    SDL_Color *fg;
+    SDL_Color fg;
     zend_long wrapLength;
 
     ZEND_PARSE_PARAMETERS_START(4, 4);
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
         Z_PARAM_ZVAL(z_text)
-        Z_PARAM_OBJECT_OF_CLASS(FG, sdl_color_ce)
+        Z_PARAM_OBJECT_OF_CLASS(FG, get_php_sdl_color_ce())
         Z_PARAM_LONG(wrapLength)
     ZEND_PARSE_PARAMETERS_END();
     font = php_ttf_font_from_zval_p(FONT);
 
-    fg = php_sdl_color_from_zval_p(FG);
-    SDL_Surface * result = TTF_RenderUNICODE_Blended_Wrapped(font, &text, *fg, wrapLength);
+    zval_to_sdl_color(FG, &fg);
+    SDL_Surface * result = TTF_RenderUNICODE_Blended_Wrapped(font, &text, fg, wrapLength);
     ZEND_TRY_ASSIGN_REF_LONG(z_text, text);
 
-    zend_object *cresult = php_sdl_surface_object_create(sdl_surface_ce);
-    RETURN_OBJ(cresult);
+    sdl_surface_to_zval(result, return_value);
 }
 PHP_FUNCTION(TTF_RenderGlyph_Blended)
 {
@@ -782,19 +786,18 @@ PHP_FUNCTION(TTF_RenderGlyph_Blended)
     TTF_Font *font;
     zend_long ch;
     zval *FG;
-    SDL_Color *fg;
+    SDL_Color fg;
 
     ZEND_PARSE_PARAMETERS_START(3, 3);
         Z_PARAM_OBJECT_OF_CLASS(FONT, ttf_font_ce)
         Z_PARAM_LONG(ch)
-        Z_PARAM_OBJECT_OF_CLASS(FG, sdl_color_ce)
+        Z_PARAM_OBJECT_OF_CLASS(FG, get_php_sdl_color_ce())
     ZEND_PARSE_PARAMETERS_END();
     font = php_ttf_font_from_zval_p(FONT);
-    fg = php_sdl_color_from_zval_p(FG);
-    SDL_Surface * result = TTF_RenderGlyph_Blended(font, ch, *fg);
+    zval_to_sdl_color(FG, &fg);
+    SDL_Surface * result = TTF_RenderGlyph_Blended(font, ch, fg);
 
-    zend_object *cresult = php_sdl_surface_object_create(sdl_surface_ce);
-    RETURN_OBJ(cresult);
+    sdl_surface_to_zval(result, return_value);
 }
 PHP_FUNCTION(TTF_CloseFont)
 {
@@ -883,7 +886,6 @@ PHP_FUNCTION(TTF_GlyphMetrics)
 PHP_MINIT_FUNCTION(sdl_ttf)
 {
     php_ttf_font_minit_helper();
-    php_sdl_color_minit_helper();
     php_sdl_bool_minit_helper();
     php_sdl_version_minit_helper();
     php_sdl_rwops_minit_helper();

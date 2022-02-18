@@ -29,6 +29,9 @@ echo "The glyph Σ is provided: ".TTF_GlyphIsProvided($font, ord('Σ'))."\n";
 echo "Font Faces metrics: ".TTF_GlyphMetrics($font, ord('Σ'), $minx, $maxx, $miny, $maxy, $advance)."\n";
 var_dump($minx, $maxx, $miny, $maxy, $advance);
 
+$surface = TTF_RenderText_Blended($font, "Ciao!", new SDL_Color(200, 200, 200, 255));
+echo (string)$surface."\n";
+
 echo "TTF site text: ".TTF_SizeText($font, "This is a text", $w, $h);
 echo "    width: $w, height $h\n";
 echo "TTF size UTF8: ".TTF_SizeUTF8($font, "This is a text", $w, $h);
@@ -57,3 +60,4 @@ int(11)
 int(7)
 TTF site text: 0    width: 98, height 16
 TTF size UTF8: 0    width: 98, height 16
+TTF size UNICODE: 0    width: 98, height 16

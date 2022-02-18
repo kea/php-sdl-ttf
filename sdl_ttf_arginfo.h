@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: b5acaf90a4ba59a7e564277599647bcd54444716 */
+ * Stub hash: b98db4981203a63d648db869764d93fa1df80dbf */
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_TTF_Linked_Version, 0, 0, SDL_version, 0)
 ZEND_END_ARG_INFO()
@@ -322,16 +322,6 @@ static const zend_function_entry class_SDL_RWops_methods[] = {
 };
 
 
-static const zend_function_entry class_SDL_Color_methods[] = {
-	ZEND_FE_END
-};
-
-
-static const zend_function_entry class_SDL_Surface_methods[] = {
-	ZEND_FE_END
-};
-
-
 static const zend_function_entry class_SDL_bool_methods[] = {
 	ZEND_FE_END
 };
@@ -357,28 +347,6 @@ static zend_class_entry *register_class_SDL_RWops(void)
 	zend_class_entry ce, *class_entry;
 
 	INIT_CLASS_ENTRY(ce, "SDL_RWops", class_SDL_RWops_methods);
-	class_entry = zend_register_internal_class_ex(&ce, NULL);
-	class_entry->ce_flags |= ZEND_ACC_FINAL;
-
-	return class_entry;
-}
-
-static zend_class_entry *register_class_SDL_Color(void)
-{
-	zend_class_entry ce, *class_entry;
-
-	INIT_CLASS_ENTRY(ce, "SDL_Color", class_SDL_Color_methods);
-	class_entry = zend_register_internal_class_ex(&ce, NULL);
-	class_entry->ce_flags |= ZEND_ACC_FINAL;
-
-	return class_entry;
-}
-
-static zend_class_entry *register_class_SDL_Surface(void)
-{
-	zend_class_entry ce, *class_entry;
-
-	INIT_CLASS_ENTRY(ce, "SDL_Surface", class_SDL_Surface_methods);
 	class_entry = zend_register_internal_class_ex(&ce, NULL);
 	class_entry->ce_flags |= ZEND_ACC_FINAL;
 

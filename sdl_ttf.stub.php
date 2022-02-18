@@ -56,7 +56,5 @@ function TTF_GetFreeTypeVersion(int &$major, int &$minor, int &$patch): void {}
 
 final class TTF_Font {}
 final class SDL_RWops {}
-final class SDL_Color {}
-final class SDL_Surface {}
 final class SDL_bool {}
 final class SDL_version {}
