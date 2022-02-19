@@ -41,9 +41,7 @@
             <file name="README.md" role="doc" />
             <file name="LICENSE" role="doc" />
             <file name="CREDITS" role="doc" />
-            <file name="sdl_bool.h" role="src" />
             <file name="php_sdl_ttf.h" role="src" />
-            <file name="sdl_rwops.h" role="src" />
             <file name="sdl_ttf.c" role="src" />
             <file name="sdl_ttf.stub.php" role="src" />
             <file name="sdl_ttf_arginfo.h" role="src" />
