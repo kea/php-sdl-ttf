@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 6d37e7c1ca5735946c004a42f721c3622634343a */
+ * Stub hash: 51a50b74aca31201e86fc70b05bcd1bdb376ad88 */
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_TTF_Linked_Version, 0, 0, SDL_version, 0)
 ZEND_END_ARG_INFO()
@@ -298,16 +298,6 @@ static const zend_function_entry class_TTF_Font_methods[] = {
 };
 
 
-static const zend_function_entry class_SDL_RWops_methods[] = {
-	ZEND_FE_END
-};
-
-
-static const zend_function_entry class_SDL_bool_methods[] = {
-	ZEND_FE_END
-};
-
-
 static const zend_function_entry class_SDL_version_methods[] = {
 	ZEND_FE_END
 };
@@ -317,28 +307,6 @@ static zend_class_entry *register_class_TTF_Font(void)
 	zend_class_entry ce, *class_entry;
 
 	INIT_CLASS_ENTRY(ce, "TTF_Font", class_TTF_Font_methods);
-	class_entry = zend_register_internal_class_ex(&ce, NULL);
-	class_entry->ce_flags |= ZEND_ACC_FINAL;
-
-	return class_entry;
-}
-
-static zend_class_entry *register_class_SDL_RWops(void)
-{
-	zend_class_entry ce, *class_entry;
-
-	INIT_CLASS_ENTRY(ce, "SDL_RWops", class_SDL_RWops_methods);
-	class_entry = zend_register_internal_class_ex(&ce, NULL);
-	class_entry->ce_flags |= ZEND_ACC_FINAL;
-
-	return class_entry;
-}
-
-static zend_class_entry *register_class_SDL_bool(void)
-{
-	zend_class_entry ce, *class_entry;
-
-	INIT_CLASS_ENTRY(ce, "SDL_bool", class_SDL_bool_methods);
 	class_entry = zend_register_internal_class_ex(&ce, NULL);
 	class_entry->ce_flags |= ZEND_ACC_FINAL;
 

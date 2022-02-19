@@ -11,8 +11,9 @@
 #include "sdl_ttf_arginfo.h"
 #include "ttf_font.h"
 #include "sdl_version.h"
-#include "sdl_bool.h"
-#include "sdl_rwops.h"
+
+extern zend_class_entry *get_php_sdl_rwops_ce(void);
+extern SDL_RWops *zval_to_sdl_rwops(zval *z_val);
 
 extern zend_class_entry *get_php_sdl_color_ce(void);
 extern zend_bool sdl_color_to_zval(SDL_Color *color, zval *value);
@@ -98,11 +99,11 @@ PHP_FUNCTION(TTF_OpenFontRW)
     zend_long ptsize;
 
     ZEND_PARSE_PARAMETERS_START(3, 3);
-        Z_PARAM_OBJECT_OF_CLASS(SRC, sdl_rwops_ce)
+        Z_PARAM_OBJECT_OF_CLASS(SRC, get_php_sdl_rwops_ce())
         Z_PARAM_LONG(freesrc)
         Z_PARAM_LONG(ptsize)
     ZEND_PARSE_PARAMETERS_END();
-    src = php_sdl_rwops_from_zval_p(SRC);
+    src = zval_to_sdl_rwops(SRC);
 
     TTF_Font * result = TTF_OpenFontRW(src, freesrc, ptsize);
 
@@ -120,12 +121,12 @@ PHP_FUNCTION(TTF_OpenFontIndexRW)
     zend_long index;
 
     ZEND_PARSE_PARAMETERS_START(4, 4);
-        Z_PARAM_OBJECT_OF_CLASS(SRC, sdl_rwops_ce)
+        Z_PARAM_OBJECT_OF_CLASS(SRC, get_php_sdl_rwops_ce())
         Z_PARAM_LONG(freesrc)
         Z_PARAM_LONG(ptsize)
         Z_PARAM_LONG(index)
     ZEND_PARSE_PARAMETERS_END();
-    src = php_sdl_rwops_from_zval_p(SRC);
+    src = zval_to_sdl_rwops(SRC);
 
     TTF_Font * result = TTF_OpenFontIndexRW(src, freesrc, ptsize, index);
 
@@ -861,9 +862,7 @@ PHP_FUNCTION(TTF_GlyphMetrics)
 PHP_MINIT_FUNCTION(sdl_ttf)
 {
     php_ttf_font_minit_helper();
-    php_sdl_bool_minit_helper();
     php_sdl_version_minit_helper();
-    php_sdl_rwops_minit_helper();
     int init = TTF_Init();
 
     return SUCCESS;
