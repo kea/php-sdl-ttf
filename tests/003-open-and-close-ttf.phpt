@@ -36,9 +36,9 @@ echo "TTF site text: ".TTF_SizeText($font, "This is a text", $w, $h);
 echo "    width: $w, height $h\n";
 echo "TTF size UTF8: ".TTF_SizeUTF8($font, "This is a text", $w, $h);
 echo "    width: $w, height $h\n";
-$string = "This is a text";
-echo "TTF size UNICODE: ".TTF_SizeUNICODE($font, $string, $w, $h);
-echo "    width: $w, height $h\n";
+// Wrong
+// echo "TTF size UNICODE: ".TTF_SizeUNICODE($font, "\u{039a}\u{039e}\u{039b}", $w, $h);
+// echo "    width: $w, height $h\n";
 
 TTF_CloseFont($font);
 ?>
@@ -58,6 +58,6 @@ int(7)
 int(0)
 int(11)
 int(7)
+SDL_Surface(8,35,16,32,0xff0000,0xff00,0xff,0xff000000)
 TTF site text: 0    width: 98, height 16
 TTF size UTF8: 0    width: 98, height 16
-TTF size UNICODE: 0    width: 98, height 16
