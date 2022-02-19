@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 const WINDOW_WIDTH = 800;
-const WINDOW_HEIGHT = 800;
+const WINDOW_HEIGHT = 500;
 
 error_reporting(E_ALL);
 
@@ -31,7 +31,7 @@ $window = SDL_CreateWindow(
 );
 $renderer = SDL_CreateRenderer($window, 0, SDL_RENDERER_ACCELERATED);
 
-SDL_SetRenderDrawColor($renderer, 0, 100, 0, 0);
+SDL_SetRenderDrawColor($renderer, 0x41, 0x19, 0x10, 0);
 SDL_RenderClear($renderer);
 
 $fonts = [];
@@ -39,11 +39,26 @@ $textures = [];
 $surfaces = [];
 $rects = [];
 
-for ($i = 18; $i < 150; $i+=5+$i/3) {
-    $font = TTF_OpenFont(__DIR__.'/../Roboto-Medium.ttf', (int)$i);
-    $surfaceT = TTF_RenderText_Blended($font, "Ciao! ".((int)$i), new SDL_Color(230, 230, 230, 255));
+$font = TTF_OpenFont(__DIR__.'/../Roboto-Medium.ttf', 12);
+$fontName = TTF_FontFaceFamilyName($font);
+$fontStyleName = TTF_FontFaceStyleName($font);
+TTF_CloseFont($font);
+
+$colors = [
+    18 => new SDL_Color(0xF0, 0xD0, 0xA0, 255),
+    28 => new SDL_Color(0xdb, 0xa8, 0x33, 255),
+    42 => new SDL_Color(0xd7, 0x6b, 0x2b, 255),
+    68 => new SDL_Color(0xce, 0x4b, 0x2d, 255),
+];
+
+foreach ([18, 28, 42, 68] as $i) {
+    // TTF_SetFontSize requires SDL_ttf 2.0.18+
+    $font = TTF_OpenFont(__DIR__.'/../Roboto-Medium.ttf', $i);
+    $surfaceT = TTF_RenderUTF8_Blended(
+        $font, "Ciao \u{039a}\u{039e}\u{039b}! ".$fontName.' '.$fontStyleName.' '.$i, $colors[$i]
+    );
     $textureT = SDL_CreateTextureFromSurface($renderer, $surfaceT);
-    $rectT = new SDL_Rect(100, 100 + (int)($i*2), $surfaceT->clip_rect->w, $surfaceT->clip_rect->h);
+    $rectT = new SDL_Rect(20, 30 + (int)($i*2), $surfaceT->clip_rect->w, $surfaceT->clip_rect->h);
 
     $fonts[] = $font;
     $textures[] = $textureT;
