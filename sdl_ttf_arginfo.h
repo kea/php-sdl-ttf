@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: b98db4981203a63d648db869764d93fa1df80dbf */
+ * Stub hash: 6d37e7c1ca5735946c004a42f721c3622634343a */
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_TTF_Linked_Version, 0, 0, SDL_version, 0)
 ZEND_END_ARG_INFO()
@@ -107,12 +107,7 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_TTF_SizeUTF8 arginfo_TTF_SizeText
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_TTF_SizeUNICODE, 0, 4, IS_LONG, 0)
-	ZEND_ARG_OBJ_INFO(0, font, TTF_Font, 0)
-	ZEND_ARG_TYPE_INFO(1, text, IS_LONG, 0)
-	ZEND_ARG_TYPE_INFO(1, w, IS_LONG, 0)
-	ZEND_ARG_TYPE_INFO(1, h, IS_LONG, 0)
-ZEND_END_ARG_INFO()
+#define arginfo_TTF_SizeUNICODE arginfo_TTF_SizeText
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_TTF_RenderText_Solid, 0, 3, SDL_Surface, 0)
 	ZEND_ARG_OBJ_INFO(0, font, TTF_Font, 0)
@@ -122,11 +117,7 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_TTF_RenderUTF8_Solid arginfo_TTF_RenderText_Solid
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_TTF_RenderUNICODE_Solid, 0, 3, SDL_Surface, 0)
-	ZEND_ARG_OBJ_INFO(0, font, TTF_Font, 0)
-	ZEND_ARG_TYPE_INFO(1, text, IS_LONG, 0)
-	ZEND_ARG_OBJ_INFO(0, fg, SDL_Color, 0)
-ZEND_END_ARG_INFO()
+#define arginfo_TTF_RenderUNICODE_Solid arginfo_TTF_RenderText_Solid
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_TTF_RenderGlyph_Solid, 0, 3, SDL_Surface, 0)
 	ZEND_ARG_OBJ_INFO(0, font, TTF_Font, 0)
@@ -143,12 +134,7 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_TTF_RenderUTF8_Shaded arginfo_TTF_RenderText_Shaded
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_TTF_RenderUNICODE_Shaded, 0, 4, SDL_Surface, 0)
-	ZEND_ARG_OBJ_INFO(0, font, TTF_Font, 0)
-	ZEND_ARG_TYPE_INFO(1, text, IS_LONG, 0)
-	ZEND_ARG_OBJ_INFO(0, fg, SDL_Color, 0)
-	ZEND_ARG_OBJ_INFO(0, bg, SDL_Color, 0)
-ZEND_END_ARG_INFO()
+#define arginfo_TTF_RenderUNICODE_Shaded arginfo_TTF_RenderText_Shaded
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_TTF_RenderGlyph_Shaded, 0, 4, SDL_Surface, 0)
 	ZEND_ARG_OBJ_INFO(0, font, TTF_Font, 0)
@@ -161,7 +147,7 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_TTF_RenderUTF8_Blended arginfo_TTF_RenderText_Solid
 
-#define arginfo_TTF_RenderUNICODE_Blended arginfo_TTF_RenderUNICODE_Solid
+#define arginfo_TTF_RenderUNICODE_Blended arginfo_TTF_RenderText_Solid
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_TTF_RenderText_Blended_Wrapped, 0, 4, SDL_Surface, 0)
 	ZEND_ARG_OBJ_INFO(0, font, TTF_Font, 0)
@@ -172,12 +158,7 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_TTF_RenderUTF8_Blended_Wrapped arginfo_TTF_RenderText_Blended_Wrapped
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_TTF_RenderUNICODE_Blended_Wrapped, 0, 4, SDL_Surface, 0)
-	ZEND_ARG_OBJ_INFO(0, font, TTF_Font, 0)
-	ZEND_ARG_TYPE_INFO(1, text, IS_LONG, 0)
-	ZEND_ARG_OBJ_INFO(0, fg, SDL_Color, 0)
-	ZEND_ARG_TYPE_INFO(0, wrapLength, IS_LONG, 0)
-ZEND_END_ARG_INFO()
+#define arginfo_TTF_RenderUNICODE_Blended_Wrapped arginfo_TTF_RenderText_Blended_Wrapped
 
 #define arginfo_TTF_RenderGlyph_Blended arginfo_TTF_RenderGlyph_Solid
 
