@@ -19,7 +19,7 @@
     </lead>
 
     <!-- Current Release -->
-    <date>2022-02-01</date>
+    <date>2022-02-16</date>
     <time>09:00:00</time>
     <version>
         <release>0.2.0</release>
@@ -43,9 +43,7 @@
             <file name="CREDITS" role="doc" />
             <file name="sdl_bool.h" role="src" />
             <file name="php_sdl_ttf.h" role="src" />
-            <file name="sdl_surface.h" role="src" />
             <file name="sdl_rwops.h" role="src" />
-            <file name="sdl_color.h" role="src" />
             <file name="sdl_ttf.c" role="src" />
             <file name="sdl_ttf.stub.php" role="src" />
             <file name="sdl_ttf_arginfo.h" role="src" />
@@ -54,6 +52,10 @@
             <dir name="tests">
                 <file name="001.phpt" role="test" />
                 <file name="002.phpt" role="test" />
+            </dir>
+            <dir name="exmaples">
+                <file name="drawfont.php" role="doc" />
+                <file name="fontmetrics.php" role="doc" />
             </dir>
         </dir>
     </contents>
@@ -69,7 +71,7 @@
             </pearinstaller>
         </required>
     </dependencies>
-    <providesextension>SDL_mixer</providesextension>
+    <providesextension>SDL_ttf</providesextension>
     <extsrcrelease/>
     <changelog>
         <release>
