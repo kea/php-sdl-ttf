@@ -30,7 +30,7 @@ PHP_FUNCTION(TTF_Linked_Version)
     const SDL_version * result = TTF_Linked_Version();
 
     zend_object *cresult = php_sdl_version_object_create(sdl_version_ce);
-        RETURN_OBJ(cresult);
+	RETURN_OBJ(cresult);
 }
 PHP_FUNCTION(TTF_ByteSwappedUNICODE)
 {

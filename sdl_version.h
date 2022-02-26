@@ -40,7 +40,6 @@ static void php_sdl_version_object_free(zend_object *zobj)
 	php_sdl_version_object *obj = php_sdl_version_object_from_zend_object(zobj);
 
 	if (obj->sdl_version) {
-		// @todo implement free es. TTF_CloseFont(obj->sdl_version);
 		obj->sdl_version = NULL;
 	}
 
