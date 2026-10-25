@@ -44,7 +44,7 @@ TTF_CloseFont($font);
 ?>
 --EXPECTF--
 Error: font not opened!
-string(%d) "Couldn't open /wrong.font.ttf%s"
+string(%d) "Couldn't open /wrong.font.ttf%S"
 Font open and return type is TTF_Font
 string(0) ""
 Font Faces: 1
