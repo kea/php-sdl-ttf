@@ -5,7 +5,7 @@
         xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
-    <name>SDL_mixer</name>
+    <name>sdl_ttf</name>
     <channel>pecl.php.net</channel>
     <summary>Binding of SDL_ttf for PHP</summary>
     <description>
@@ -19,10 +19,10 @@
     </lead>
 
     <!-- Current Release -->
-    <date>2022-02-16</date>
+    <date>2026-10-25</date>
     <time>09:00:00</time>
     <version>
-        <release>0.2.0</release>
+        <release>1.0.0</release>
         <api>1.0.0</api>
     </version>
     <stability>
@@ -31,7 +31,9 @@
     </stability>
     <license uri="https://github.com/kea/php-sdl-ttf/LICENSE">ZLIB</license>
     <notes>
-        - Initial release
+        - add PIE support (composer.json php-ext package)
+        - add support for PHP 8.2 - 8.5
+        - implement TTF_GetFreeTypeVersion() (fix load with SDL_ttf &gt;= 2.0.18)
     </notes>
     <!-- End Current Release -->
 
