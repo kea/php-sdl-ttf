@@ -3,6 +3,16 @@
 
 It requires SDL PHP Extension.
 
+## Installing with PIE
+
+Install with [PIE](https://github.com/php/pie) (PHP Installer for Extensions):
+
+```bash
+$ pie install kea/php-sdl-ttf
+```
+
+The SDL_ttf development files (e.g. `libsdl2-ttf-dev` on Debian/Ubuntu) and the SDL PHP extension must be installed first.
+
 ## Building
 
 ```bash
@@ -16,6 +26,13 @@ Run tests with installed PHP (avoids skipped tests):
 
 ```
 $ php run-tests.php --show-diff -q
+```
+
+Run tests with docker:
+
+```bash
+$ docker build --build-arg PHP_VERSION=8.4 -t php-sdl-ttf:8.4 .
+$ docker run --rm php-sdl-ttf:8.4
 ```
 
 ## Requirements

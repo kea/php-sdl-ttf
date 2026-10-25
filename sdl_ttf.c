@@ -858,6 +858,29 @@ PHP_FUNCTION(TTF_GlyphMetrics)
     RETURN_LONG(result);
 }
 
+#if SDL_TTF_VERSION_ATLEAST(2, 0, 18)
+PHP_FUNCTION(TTF_GetFreeTypeVersion)
+{
+    zval *z_major = NULL;
+    int major;
+    zval *z_minor = NULL;
+    int minor;
+    zval *z_patch = NULL;
+    int patch;
+
+    ZEND_PARSE_PARAMETERS_START(3, 3);
+        Z_PARAM_ZVAL(z_major)
+        Z_PARAM_ZVAL(z_minor)
+        Z_PARAM_ZVAL(z_patch)
+    ZEND_PARSE_PARAMETERS_END();
+
+    TTF_GetFreeTypeVersion(&major, &minor, &patch);
+    ZEND_TRY_ASSIGN_REF_LONG(z_major, major);
+    ZEND_TRY_ASSIGN_REF_LONG(z_minor, minor);
+    ZEND_TRY_ASSIGN_REF_LONG(z_patch, patch);
+}
+#endif
+
 /* {{{ PHP_MINIT_FUNCTION */
 PHP_MINIT_FUNCTION(sdl_ttf)
 {

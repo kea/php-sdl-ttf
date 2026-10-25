@@ -22,11 +22,11 @@ var_dump(SDL_GetError());
 //function TTF_FontFaces(TTF_Font $font): int {};
 
 echo "Font Faces: ".TTF_FontFaces($font)."\n";
-echo "Font Faces is fixed width: ".TTF_FontFaceIsFixedWidth($font)."\n";
+echo "Font Faces is fixed width: ".(TTF_FontFaceIsFixedWidth($font) ? "yes" : "no")."\n";
 echo "Font Faces family name: ".TTF_FontFaceFamilyName($font)."\n";
 echo "Font Faces style name: ".TTF_FontFaceStyleName($font)."\n";
-echo "The glyph Σ is provided: ".TTF_GlyphIsProvided($font, ord('Σ'))."\n";
-echo "Font Faces metrics: ".TTF_GlyphMetrics($font, ord('Σ'), $minx, $maxx, $miny, $maxy, $advance)."\n";
+echo "The glyph Σ is provided: ".TTF_GlyphIsProvided($font, 0x03A3)."\n";
+echo "Font Faces metrics: ".TTF_GlyphMetrics($font, 0x03A3, $minx, $maxx, $miny, $maxy, $advance)."\n";
 var_dump($minx, $maxx, $miny, $maxy, $advance);
 
 $surface = TTF_RenderText_Blended($font, "Ciao!", new SDL_Color(200, 200, 200, 255));
@@ -42,21 +42,21 @@ echo "    width: $w, height $h\n";
 
 TTF_CloseFont($font);
 ?>
---EXPECT--
+--EXPECTF--
 Error: font not opened!
-string(29) "Couldn't open /wrong.font.ttf"
+string(%d) "Couldn't open /wrong.font.ttf%s"
 Font open and return type is TTF_Font
 string(0) ""
 Font Faces: 1
-Font Faces is fixed width: 4
+Font Faces is fixed width: yes
 Font Faces family name: Source Code Pro
 Font Faces style name: Medium
-The glyph Σ is provided: 128
+The glyph Σ is provided: 623
 Font Faces metrics: 0
-int(1)
+int(0)
 int(7)
 int(0)
-int(11)
+int(8)
 int(7)
 SDL_Surface(8,35,16,32,0xff0000,0xff00,0xff,0xff000000)
 TTF site text: 0    width: 98, height 16

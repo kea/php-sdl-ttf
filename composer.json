@@ -1,15 +1,21 @@
 {
-    "name": "SDL_ttf",
-    "version": "0.2.0",
-    "type": "extension",
-    "license": [
-        "ZLIB"
-    ],
+    "name": "kea/php-sdl-ttf",
+    "type": "php-ext",
+    "license": "Zlib",
+    "description": "Binding of SDL_ttf for PHP",
+    "keywords": ["SDL", "SDL_ttf", "font", "multimedia", "game", "extension"],
+    "homepage": "https://github.com/kea/php-sdl-ttf",
     "authors": [
         {
             "name": "Manuel Baldassarri",
             "email": "manuel@baldassarri.me"
         }
     ],
-    "description": "Binding of SDL_ttf for PHP"
+    "require": {
+        "php": ">=8.0",
+        "ext-sdl": "*"
+    },
+    "php-ext": {
+        "extension-name": "sdl_ttf"
+    }
 }

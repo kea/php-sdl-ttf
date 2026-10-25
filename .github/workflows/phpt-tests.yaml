@@ -1,0 +1,47 @@
+name: PHPT Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  # sdl 2.7.0 on PECL does not build on PHP 8.5 and emits startup warnings
+  # on PHP 8.x: build it from an upstream commit that fixes both.
+  SDL_REF: 419eb9d759e8d56b106455c5a84d25fe67526c63
+
+jobs:
+  phpt-test:
+    name: "PHPT Tests (PHP ${{ matrix.php-versions }})"
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        php-versions: ['8.2', '8.3', '8.4', '8.5']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+      - name: "Build SDL extension"
+        run: |
+          sudo apt-get update -q
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install libsdl2-dev libsdl2-ttf-dev
+          git clone https://github.com/Ponup/php-sdl.git "$RUNNER_TEMP/php-sdl"
+          cd "$RUNNER_TEMP/php-sdl"
+          git checkout "$SDL_REF"
+          phpize
+          ./configure
+          make
+          sudo make install
+      - name: "Build SDL_ttf extension"
+        run: |
+          phpize
+          ./configure --enable-sdl_ttf
+          make
+      - name: "Run the tests"
+        run: |
+          php run-tests.php -d extension=sdl.so -d extension=`pwd`/modules/sdl_ttf.so --offline --show-diff --set-timeout 120 -q

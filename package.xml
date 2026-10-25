@@ -62,7 +62,6 @@
         <required>
             <php>
                 <min>8.0.0</min>
-                <max>8.1.99</max>
             </php>
             <pearinstaller>
                 <min>1.9.1</min>
